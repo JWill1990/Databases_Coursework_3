@@ -23,14 +23,14 @@ import uk.ac.bris.cs.databases.api.TopicView;
 public class API implements APIProvider {
 
     private final Connection c;
-    
+
     public API(Connection c) {
         this.c = c;
     }
 
     @Override
     public Result<Map<String, String>> getUsers() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return GetUser.GetUserInfo(c);
     }
 
     @Override
@@ -127,6 +127,5 @@ public class API implements APIProvider {
     public Result likePost(String username, long topicId, int post, boolean like) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-   }
 
+   }

@@ -41,7 +41,8 @@ public class API implements APIProvider {
 
     @Override
     public Result<List<SimpleForumSummaryView>> getSimpleForums() {
-        throw new UnsupportedOperationException("Not supported yet.");
+      String sql="SELECT * FROM Forum";
+      return simpleForumSummaryView.getSummary(c,sql);
     }
 
     @Override

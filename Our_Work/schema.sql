@@ -30,3 +30,8 @@ CREATE TABLE Post (
     postedAt INTEGER NOT NULL,
     likes INTEGER
 );
+
+INSERT INTO Person values (1,'Jack','JackW','jw1234');
+INSERT INTO Person values (2,'Liam','LiamW','lw1234');
+INSERT INTO Person values (3,'Durgesh','DurgeshP','dp1234');
+INSERT INTO Person values (4,'David','DavidB',null);

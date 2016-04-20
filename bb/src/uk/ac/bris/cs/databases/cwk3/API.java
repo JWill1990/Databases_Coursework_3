@@ -35,7 +35,8 @@ public class API implements APIProvider {
 
     @Override
     public Result<PersonView> getPersonView(String username) {
-        throw new UnsupportedOperationException("Not supported yet.");
+      String sql="SELECT name,username,stuId FROM Person WHERE username=?";
+			return GetPersonView.GetPersonViews(c,sql, username);
     }
 
     @Override

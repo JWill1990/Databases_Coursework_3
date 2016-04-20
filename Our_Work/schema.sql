@@ -35,3 +35,15 @@ INSERT INTO Person values (1,'Jack','JackW','jw1234');
 INSERT INTO Person values (2,'Liam','LiamW','lw1234');
 INSERT INTO Person values (3,'Durgesh','DurgeshP','dp1234');
 INSERT INTO Person values (4,'David','DavidB',null);
+
+INSERT INTO forum values (1,'Database');
+INSERT INTO forum values (2,'Oops');
+INSERT INTO forum values (3,'C Programming Language');
+
+INSERT INTO Topic values (1,1,'CourseWork3');
+INSERT INTO Topic values (2,1,"General Feedback");
+INSERT INTO Topic values (3,2,"Graphics Assignment");
+INSERT INTO Topic values (4,3,"When is the telext result going to be out");
+
+INSERT INTO post values (1,1,3,1,'What is better to use PreparedStament or Statmenet for this assignment',1204,3);
+INSERT INTO post values (2,1,4,2,'This is for you to explore',1205,60);

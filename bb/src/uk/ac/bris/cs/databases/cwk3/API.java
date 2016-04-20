@@ -1,8 +1,9 @@
 package uk.ac.bris.cs.databases.cwk3;
 
-import java.sql.Connection;
+import java.sql.*;
 import java.util.List;
 import java.util.Map;
+import java.util.*;
 import uk.ac.bris.cs.databases.api.APIProvider;
 import uk.ac.bris.cs.databases.api.AdvancedForumSummaryView;
 import uk.ac.bris.cs.databases.api.AdvancedForumView;
@@ -22,32 +23,34 @@ import uk.ac.bris.cs.databases.api.TopicView;
  */
 public class API implements APIProvider {
 
-    private final Connection c;
-
-    public API(Connection c) {
+	
+	private final Connection c;                                                         //what is the use of this connection
+    public API(Connection c) {                                                          //how to use this one
         this.c = c;
     }
-
+   
     @Override
     public Result<Map<String, String>> getUsers() {
-        return GetUser.GetUserInfo(c);
+			return GetUser.GetUserInfo(c,"SELECT name,username FROM Person");
     }
 
     @Override
     public Result<PersonView> getPersonView(String username) {
-      String sql="SELECT name,username,stuId FROM Person WHERE username=?";
+			String sql="SELECT name,username,stuId FROM Person WHERE username=?";
 			return GetPersonView.GetPersonViews(c,sql, username);
     }
 
     @Override
     public Result<List<SimpleForumSummaryView>> getSimpleForums() {
-      String sql="SELECT * FROM Forum";
-      return simpleForumSummaryView.getSummary(c,sql);
+    	String sql="SELECT * FROM Forum";
+    	return simpleForumSummaryView.getSummary(c,sql);
     }
 
     @Override
     public Result<Integer> countPostsInTopic(long topicId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    	String sql="SELECT count(*) FROM topic JOIN post WHERE topic.id=? and topic.id=post.topicID";
+    	return CountPostsinTopic.getCount(c,sql,topicId);
+    	///throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -129,5 +132,4 @@ public class API implements APIProvider {
     public Result likePost(String username, long topicId, int post, boolean like) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
    }

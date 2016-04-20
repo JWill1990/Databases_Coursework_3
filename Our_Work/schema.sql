@@ -11,7 +11,7 @@ CREATE TABLE Forum (
 CREATE TABLE Topic (
     id INTEGER PRIMARY KEY,
     forumID INTEGER REFERENCES Forum(id),
-    title VARCHAR(100) NOT NULL,
+    title VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE Person (
@@ -20,7 +20,7 @@ CREATE TABLE Person (
     username VARCHAR(10) NOT NULL UNIQUE,
     stuId VARCHAR(10) NULL
 );
-    
+
 CREATE TABLE Post (
     id INTEGER PRIMARY KEY,
     topicID INTEGER REFERENCES Topic(id),
@@ -29,5 +29,4 @@ CREATE TABLE Post (
     text VARCHAR(1024) NOT NULL,
     postedAt INTEGER NOT NULL,
     likes INTEGER
-);   
-
+);

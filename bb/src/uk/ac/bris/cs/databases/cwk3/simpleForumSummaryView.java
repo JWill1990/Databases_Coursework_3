@@ -16,7 +16,7 @@ public class simpleForumSummaryView {
     private final static String simpleForumSummaryViewStatement = "SELECT * FROM Forum";
 	 public static  Result<List<SimpleForumSummaryView>> getSummary(Connection c){ 
 	    	ResultSet rst;
-	    	ArrayList list=new ArrayList();
+	    	ArrayList list = new ArrayList();
 	    	try (PreparedStatement pstmt= c.prepareStatement(simpleForumSummaryViewStatement)){
 				rst=pstmt.executeQuery();
 				while(rst.next()){

@@ -36,26 +36,27 @@ public class API implements APIProvider {
 
     @Override
     public Result<PersonView> getPersonView(String username) {
-			String sql="SELECT name,username,stuId FROM Person WHERE username=?";
-			return GetPersonView.GetPersonViews(c, sql, username);
+			return GetPersonView.getPersonView(c, username);
     }
 
     @Override
     public Result<List<SimpleForumSummaryView>> getSimpleForums() {
-    	String sql="SELECT * FROM Forum";
-    	return simpleForumSummaryView.getSummary(c, sql);
+    	return simpleForumSummaryView.getSummary(c);
     }
 
     @Override
+<<<<<<< HEAD
     public Result<Integer> countPostsInTopic(long topicId) {
+=======
+    public Result<Integer> countPostsInTopic(long topicId) {   	
+>>>>>>> bd184552e8ab0e4799aa457f1633aa260adcf703
     	return CountPostsinTopic.getCount(c, topicId);
     	///throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Result<List<PersonView>> getLikers(long topicId) {
-     
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Result<List<PersonView>> getLikers(long topicId) {     
+        return GetPersonView.getLikers(c, topicID);
     }
 
     @Override

@@ -11,7 +11,6 @@ import uk.ac.bris.cs.databases.api.Result;
 import uk.ac.bris.cs.databases.api.SimpleForumSummaryView;
 
 public class CountPostsinTopic {
-
     public static final String countSQL = "SELECT count(*) FROM Topic JOIN Post WHERE Topic.id=? and Topic.id=Post.topicID";
     public static final String getSimpleSQL = "SELECT Topic.id, Topic.title, Post.id FROM Post JOIN Topic ON Post.topic=Topic.id WHERE Topic.id=?"
 
@@ -49,4 +48,3 @@ public class CountPostsinTopic {
             return Result.fatal("Unknown error");
         }
     }
-}

@@ -13,10 +13,11 @@ import uk.ac.bris.cs.databases.api.Result;
 import uk.ac.bris.cs.databases.api.SimpleForumSummaryView;
 
 public class simpleForumSummaryView {
-	 public static  Result<List<SimpleForumSummaryView>> getSummary(Connection c,String sql){ 
+    private final static String simpleForumSummaryViewStatement = "SELECT * FROM Forum";
+	 public static  Result<List<SimpleForumSummaryView>> getSummary(Connection c){ 
 	    	ResultSet rst;
 	    	ArrayList list=new ArrayList();
-	    	try (PreparedStatement pstmt= c.prepareStatement(sql)){
+	    	try (PreparedStatement pstmt= c.prepareStatement(simpleForumSummaryViewStatement)){
 				rst=pstmt.executeQuery();
 				while(rst.next()){
 		          		 Long id=rst.getLong("id");

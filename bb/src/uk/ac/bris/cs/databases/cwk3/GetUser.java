@@ -10,11 +10,11 @@ import java.util.Map;
 import uk.ac.bris.cs.databases.api.Result;
 
 public class GetUser {
+    private final static String sql = "SELECT name,username FROM Person";
 	  
     public static  Result<Map<String, String>> GetUserInfo(Connection c){ 
     	PreparedStatement pstmt;
         ResultSet rst;
-    	String sql="SELECT name,username FROM Person";
         Map<String, String> maps=new HashMap<String,String>();  //Maps
     	try {
 		pstmt = c.prepareStatement(sql);

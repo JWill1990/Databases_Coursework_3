@@ -11,10 +11,11 @@ import uk.ac.bris.cs.databases.api.Result;
 import uk.ac.bris.cs.databases.api.SimpleForumSummaryView;
 
 public class CountPostsinTopic {
-	public static  Result<Integer> getCount(Connection c,String sql, Long topicId){ 
+	private final static String countPostsInTopicStatement = "SELECT count(*) FROM topic JOIN post WHERE topic.id=? and topic.id=post.topicID";
+	public static  Result<Integer> getCount(Connection c, Long topicId){ 
     	ResultSet rst;
     	int count=0;
-    	try (PreparedStatement pstmt= c.prepareStatement(sql)){
+    	try (PreparedStatement pstmt= c.prepareStatement(countPostsInTopicStatement)){
 			pstmt.setLong(1, topicId);
     		rst=pstmt.executeQuery();
 			if(rst.next()){

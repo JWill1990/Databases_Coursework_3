@@ -9,13 +9,14 @@ import java.sql.SQLException;
 
 
 public class GetPersonView {
+    private final static String getPersonViewsStatement = "SELECT name,username,stuId FROM Person WHERE username=?";
 	
 	 @SuppressWarnings("unchecked")
-	public static  Result<PersonView> GetPersonViews(Connection c,String sql, String uname){ 
+	public static  Result<PersonView> getPersonView(Connection c, String uname){ 
 	    	
 	        ResultSet rst;
 	    	/*try with statement closes closes the recources after it is done*/
-	       	try (PreparedStatement pstmt = c.prepareStatement(sql)) {
+	       	try (PreparedStatement pstmt = c.prepareStatement(getPersonViewsStatement)) {
 	          pstmt.setString(1, uname);
 	       	  rst=pstmt.executeQuery();
 	       	  if (rst.next()) {
@@ -33,4 +34,12 @@ public class GetPersonView {
 	    }
 	    //return Result.fatal("No error ");
 	}
+
+    public static Result<List<PersonView>> getLikers(Connection c, long topicID)
+    {
+
+
+    }
+
+	
 }

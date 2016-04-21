@@ -48,8 +48,7 @@ public class API implements APIProvider {
 
     @Override
     public Result<Integer> countPostsInTopic(long topicId) {
-    	String sql="SELECT count(*) FROM topic JOIN post WHERE topic.id=? and topic.id=post.topicID";
-    	return CountPostsinTopic.getCount(c, sql, topicId);
+    	return CountPostsinTopic.getCount(c, topicId);
     	///throw new UnsupportedOperationException("Not supported yet.");
     }
 

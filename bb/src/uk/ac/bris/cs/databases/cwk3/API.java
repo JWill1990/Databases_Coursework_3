@@ -45,7 +45,11 @@ public class API implements APIProvider {
     }
 
     @Override
+<<<<<<< HEAD
+    public Result<Integer> countPostsInTopic(long topicId) {
+=======
     public Result<Integer> countPostsInTopic(long topicId) {   	
+>>>>>>> bd184552e8ab0e4799aa457f1633aa260adcf703
     	return CountPostsinTopic.getCount(c, topicId);
     	///throw new UnsupportedOperationException("Not supported yet.");
     }

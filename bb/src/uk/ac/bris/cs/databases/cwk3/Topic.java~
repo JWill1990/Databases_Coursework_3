@@ -12,7 +12,7 @@ import uk.ac.bris.cs.databases.api.SimpleForumSummaryView;
 import uk.ac.bris.cs.databases.api.SimpleTopicView;
 import uk.ac.bris.cs.databases.api.SimplePostView;
 
-public class CountPostsinTopic {
+public class Topic {
 
     private static final String countSQL = 
         "SELECT count(*) " +
@@ -25,7 +25,8 @@ public class CountPostsinTopic {
         "FROM Post " + 
         "JOIN Topic ON Post.topicID=Topic.id " +
         "JOIN Person ON Post.personID=Person.id " +
-        "WHERE Topic.id=?";
+        "WHERE Topic.id=?" +
+        "ORDER BY Post.postedAt";
 
 
     /**
@@ -76,9 +77,9 @@ public class CountPostsinTopic {
                 //Get Topic info
                 id = rst.getLong("Topic_id");
                 title = rst.getString("title");
-
+                int i = 1;
                 //Get first post info
-                int postNumber = rst.getInt("postNumber");
+                int postNumber = i++;
                 String author = rst.getString("name");
                 String text = rst.getString("text");
                 int postedAt = rst.getInt("postedAt");
@@ -90,7 +91,7 @@ public class CountPostsinTopic {
 
                 //Add remaining posts
                 while(rst.next()){
-                    postNumber = rst.getInt("postNumber");
+                    postNumber = i++;
                     author = rst.getString("name");
                     text = rst.getString("text");
                     postedAt = rst.getInt("postedAt");

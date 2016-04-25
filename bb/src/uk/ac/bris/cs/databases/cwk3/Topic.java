@@ -20,12 +20,13 @@ public class Topic {
         "JOIN Post WHERE (Topic.id=? " +
             "AND Topic.id=Post.topicID)";
     private static final String getSimpleSQL = 
-        "SELECT Topic.id AS Topic_id, Topic.title, Post.postNumber, " +
+        "SELECT Topic.id AS Topic_id, Topic.title, " +
             "Person.name, Post.text, Post.postedAt " +
         "FROM Post " + 
         "JOIN Topic ON Post.topicID=Topic.id " +
         "JOIN Person ON Post.personID=Person.id " +
-        "WHERE Topic.id=?";
+        "WHERE Topic.id=?" +
+        "ORDER BY Post.postedAt";
 
 
     /**
@@ -76,9 +77,9 @@ public class Topic {
                 //Get Topic info
                 id = rst.getLong("Topic_id");
                 title = rst.getString("title");
-
+                int i = 1;
                 //Get first post info
-                int postNumber = rst.getInt("postNumber");
+                int postNumber = i++;
                 String author = rst.getString("name");
                 String text = rst.getString("text");
                 int postedAt = rst.getInt("postedAt");
@@ -90,7 +91,7 @@ public class Topic {
 
                 //Add remaining posts
                 while(rst.next()){
-                    postNumber = rst.getInt("postNumber");
+                    postNumber = i++;
                     author = rst.getString("name");
                     text = rst.getString("text");
                     postedAt = rst.getInt("postedAt");

@@ -26,7 +26,7 @@ CREATE TABLE Post (
     id INTEGER PRIMARY KEY,
     topicID INTEGER REFERENCES Topic(id),
     personID INTEGER REFERENCES Person(id),
-    postNumber INTEGER NOT NULL UNIQUE,
+    postNumber INTEGER NOT NULL,
     text VARCHAR(1024) NOT NULL,
     postedAt INTEGER NOT NULL
 );
@@ -50,8 +50,10 @@ INSERT INTO Topic values (2,1,'General Feedback');
 INSERT INTO Topic values (3,2,'Graphics Assignment');
 INSERT INTO Topic values (4,3,'When is the teletext result going to be out');
 
-INSERT INTO post values (1,1,3,1,'What is better to use PreparedStatement or Statement for this assignment',1204);
-INSERT INTO post values (2,1,4,2,'This is for you to explore',1205);
+INSERT INTO post values (1,1,3,1,'What is better to use PreparedStatement or Statement for this assignment',4248221);
+INSERT INTO post values (2,1,4,2,'This is for you to explore',4264278);
+
+INSERT INTO post values (3,2,4,1,'General feedback will be posted here',4238293);
 
 INSERT INTO likers values (1, 1);
 INSERT INTO likers values (2, 3);

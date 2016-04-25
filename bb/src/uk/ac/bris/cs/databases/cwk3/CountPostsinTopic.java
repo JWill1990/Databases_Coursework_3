@@ -20,7 +20,7 @@ public class CountPostsinTopic {
         "JOIN Post WHERE (Topic.id=? " +
             "AND Topic.id=Post.topicID)";
     private static final String getSimpleSQL = 
-        "SELECT Topic.id AS Topic_id, Topic.title, Post.id AS Post_id, " +
+        "SELECT Topic.id AS Topic_id, Topic.title, Post.postNumber, " +
             "Person.name, Post.text, Post.postedAt " +
         "FROM Post " + 
         "JOIN Topic ON Post.topicID=Topic.id " +
@@ -78,7 +78,7 @@ public class CountPostsinTopic {
                 title = rst.getString("title");
 
                 //Get first post info
-                int postNumber = rst.getInt("Post_id");
+                int postNumber = rst.getInt("postNumber");
                 String author = rst.getString("name");
                 String text = rst.getString("text");
                 int postedAt = rst.getInt("postedAt");
@@ -90,7 +90,7 @@ public class CountPostsinTopic {
 
                 //Add remaining posts
                 while(rst.next()){
-                    postNumber = rst.getInt("Post_id");
+                    postNumber = rst.getInt("postNumber");
                     author = rst.getString("name");
                     text = rst.getString("text");
                     postedAt = rst.getInt("postedAt");

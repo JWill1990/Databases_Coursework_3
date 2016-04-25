@@ -56,7 +56,7 @@ public class API implements APIProvider {
 
     @Override
     public Result<SimpleTopicView> getSimpleTopic(long topicId) {
-        return CountPostsinTopic.getSimpleTopic(c, topicId);
+        return CountPostsinTopic.getSimpleTopic(c, topicID);
     }
 
     @Override

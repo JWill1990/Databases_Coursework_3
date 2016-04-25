@@ -99,7 +99,7 @@ public class CountPostsinTopic {
                 }
 
                 //Return result
-                SimpleTopicView topic = new SimpleTopicView(id, title, posts);
+                topic = new SimpleTopicView(id, title, posts);
                 return Result.success(topic);
             }
             //Error if no data for that topic

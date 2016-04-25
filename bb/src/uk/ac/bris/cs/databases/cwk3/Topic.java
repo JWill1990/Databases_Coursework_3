@@ -12,7 +12,7 @@ import uk.ac.bris.cs.databases.api.SimpleForumSummaryView;
 import uk.ac.bris.cs.databases.api.SimpleTopicView;
 import uk.ac.bris.cs.databases.api.SimplePostView;
 
-public class CountPostsinTopic {
+public class Topic {
 
     private static final String countSQL = 
         "SELECT count(*) " +
@@ -103,7 +103,7 @@ public class CountPostsinTopic {
                 return Result.success(topic);
             }
             //Error if no data for that topic
-            else{ return Result.fatal("Topic does not exist"); }
+            else{ return Result.failure("Topic does not exist"); }
         }
         catch(SQLException e) {
             System.out.println("Exception: "+e);

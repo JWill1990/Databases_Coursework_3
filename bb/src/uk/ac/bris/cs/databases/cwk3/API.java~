@@ -36,27 +36,27 @@ public class API implements APIProvider {
 
     @Override
     public Result<PersonView> getPersonView(String username) {
-        return GetPersonView.getPersonView(c, username);
+        return Person.getPersonView(c, username);
     }
 
     @Override
     public Result<List<SimpleForumSummaryView>> getSimpleForums() {
-    	return simpleForumSummaryView.getSummary(c);
+    	return Forum.getSummary(c);
     }
 
     @Override
     public Result<Integer> countPostsInTopic(long topicId) {
-    	return CountPostsinTopic.getCount(c, topicId);
+    	return Topic.getCount(c, topicId);
     }
 
     @Override
     public Result<List<PersonView>> getLikers(long topicId) {     
-        return GetPersonView.getLikers(c, topicId);
+        return Person.getLikers(c, topicId);
     }
 
     @Override
     public Result<SimpleTopicView> getSimpleTopic(long topicId) {
-        return CountPostsinTopic.getSimpleTopic(c, topicID);
+        return Topic.getSimpleTopic(c, topicId);
     }
 
     @Override

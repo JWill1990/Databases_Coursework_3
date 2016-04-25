@@ -103,7 +103,7 @@ public class CountPostsinTopic {
                 return Result.success(topic);
             }
             //Error if no data for that topic
-            else{ return Result.fatal("Topic does not exist"); }
+            else{ return Result.failure("Topic does not exist"); }
         }
         catch(SQLException e) {
             System.out.println("Exception: "+e);

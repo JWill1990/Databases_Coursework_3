@@ -61,7 +61,7 @@ public class API implements APIProvider {
 
     @Override
     public Result<PostView> getLatestPost(long topicId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Topic.getLatestPost(c, topicId);
     }
 
     @Override

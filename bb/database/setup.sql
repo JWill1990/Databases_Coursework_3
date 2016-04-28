@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS PostLikers;
 DROP TABLE IF EXISTS Likers;
 DROP TABLE IF EXISTS Post;
 DROP TABLE IF EXISTS Person;
@@ -30,8 +31,13 @@ CREATE TABLE Post (
     postedAt INTEGER NOT NULL
 );
 
-CREATE TABLE Likers (
+CREATE TABLE TopicLikers (
     topicID INTEGER REFERENCES Topic(id),
+    personID INTEGER REFERENCES Person(id)
+);
+
+CREATE TABLE PostLikers (
+    postID INTEGER REFERENCES Post(id),
     personID INTEGER REFERENCES Person(id)
 );
 

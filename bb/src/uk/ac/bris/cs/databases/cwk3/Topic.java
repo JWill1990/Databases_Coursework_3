@@ -11,6 +11,7 @@ import uk.ac.bris.cs.databases.api.Result;
 import uk.ac.bris.cs.databases.api.SimpleForumSummaryView;
 import uk.ac.bris.cs.databases.api.SimpleTopicView;
 import uk.ac.bris.cs.databases.api.SimplePostView;
+import uk.ac.bris.cs.databases.api.PersonView;
 
 public class Topic {
 
@@ -27,6 +28,11 @@ public class Topic {
         "JOIN Person ON Post.personID=Person.id " +
         "WHERE Topic.id=?" +
         "ORDER BY Post.postedAt";
+    private final static String getLikersStatement = 
+        "SELECT name, username, stuID " +
+        "FROM Person " +
+        "JOIN Likers ON Likers.personID = Person.id " +
+        "JOIN Topic ON Likers.topicID = ? ";
 
 
     /**
@@ -108,6 +114,32 @@ public class Topic {
         }
         catch(SQLException e) {
             System.out.println("Exception: "+e);
+            return Result.fatal("Unknown error");
+        }
+    }
+
+
+    public static Result<List<PersonView>> getLikers(Connection c, long topicId){
+        ResultSet rst;
+        ArrayList personList = new ArrayList();
+
+        try (PreparedStatement pstmt = c.prepareStatement(getLikersStatement)) {
+            rst = pstmt.executeQuery();
+            pstmt.setLong(1, topicId);
+            while(rst.next()) {
+                String name = rst.getString("name").trim();
+                String username=rst.getString("username").trim();
+                String stuId=rst.getString("stuId").trim();                
+                personList.add(new PersonView(name, username, stuId));
+            }
+            if(!personList.isEmpty()) {
+                return Result.success(personList);
+            }
+            else{
+                return Result.failure("There are no likes for this topic.");
+            }
+        }
+        catch (SQLException e) {
             return Result.fatal("Unknown error");
         }
     }

@@ -19,11 +19,6 @@ public class Person {
     private final static String getPersonViewsStatement =
         "SELECT name, username, stuId " +
         "FROM Person WHERE username = ?";
-    private final static String getLikersStatement = 
-        "SELECT name, username, stuID " +
-        "FROM Person " +
-        "JOIN Likers ON Likers.personID = Person.id " +
-        "JOIN Topic ON Likers.topicID = ? ";
 
 
     public static  Result<Map<String, String>> getUsers(Connection c){ 
@@ -77,30 +72,6 @@ public class Person {
         //return Result.fatal("No error ");
     }
 
-    public static Result<List<PersonView>> getLikers(Connection c, long topicId){
-        ResultSet rst;
-        ArrayList personList = new ArrayList();
-
-        try (PreparedStatement pstmt = c.prepareStatement(getLikersStatement)) {
-            rst = pstmt.executeQuery();
-            pstmt.setLong(1, topicId);
-            while(rst.next()) {
-                String name = rst.getString("name").trim();
-                String username=rst.getString("username").trim();
-                String stuId=rst.getString("stuId").trim();                
-                personList.add(new PersonView(name, username, stuId));
-            }
-            if(!personList.isEmpty()) {
-                return Result.success(personList);
-            }
-            else{
-                return Result.failure("There are no likes for this topic.");
-            }
-        }
-        catch (SQLException e) {
-            return Result.fatal("Unknown error");
-        }
-    }
 
 
 }

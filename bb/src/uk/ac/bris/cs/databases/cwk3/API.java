@@ -51,7 +51,7 @@ public class API implements APIProvider {
 
     @Override
     public Result<List<PersonView>> getLikers(long topicId) {     
-        return Person.getLikers(c, topicId);
+        return Topic.getLikers(c, topicId);
     }
 
     @Override

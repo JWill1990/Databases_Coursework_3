@@ -29,8 +29,6 @@ public class Topic {
         "JOIN Person ON Post.personID=Person.id " +
         "WHERE Topic.id=?" +
         "ORDER BY Post.postedAt";
-    private static final String checkTopic =
-        "SELECT topicID FROM Topic WHERE Topic.id=?";
     private static final String getLikersStatement = 
         "SELECT name, username, stuID " +
         "FROM Person " +
@@ -143,19 +141,10 @@ public class Topic {
         ResultSet rst;
         ArrayList<PersonView> personList = new ArrayList<PersonView>();
 
-        //Check Topic exists
-        try (PreparedStatement pstmt = c.prepareStatement(checkTopic)) {
-            rst = pstmt.executeQuery();
-            pstmt.setLong(1, topicId);
-            if(!rst.next()){
-                return Result.failure("Topic does not exist");
-            }
-        }
-        catch (SQLException e) {
-            return Result.fatal("Unknown error");
+        if(!CheckExists.topic(c, topicId)){
+            return Result.failure("Topic does not exist");
         }
 
-        //Get likers
         try (PreparedStatement pstmt = c.prepareStatement(getLikersStatement)) {
             rst = pstmt.executeQuery();
             pstmt.setLong(1, topicId);

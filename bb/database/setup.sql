@@ -55,10 +55,10 @@ INSERT INTO Topic values (2,1,'General Feedback');
 INSERT INTO Topic values (3,2,'Graphics Assignment');
 INSERT INTO Topic values (4,3,'When is the teletext result going to be out');
 
-INSERT INTO post values (1,1,3,'What is better to use PreparedStatement or Statement for this assignment',1460286600000);
-INSERT INTO post values (2,1,4,'This is for you to explore',1460290463000);
+INSERT INTO Post values (1,1,3,'What is better to use PreparedStatement or Statement for this assignment',1460286600000);
+INSERT INTO Post values (2,1,4,'This is for you to explore',1460290463000);
 
-INSERT INTO post values (3,2,4,'General feedback will be posted here',1462882463000);
+INSERT INTO Post values (3,2,4,'General feedback will be posted here',1462882463000);
 
 INSERT INTO likers values (1, 1);
 INSERT INTO likers values (2, 3);

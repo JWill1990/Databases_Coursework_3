@@ -11,13 +11,14 @@ import java.util.Map;
 
 import uk.ac.bris.cs.databases.api.Result;
 import uk.ac.bris.cs.databases.api.SimpleForumSummaryView;
+import uk.ac.bris.cs.databases.api.SimpleTopicSummaryView;
 import uk.ac.bris.cs.databases.api.ForumSummaryView;
 
 public class Forum {
 
     private final static String simpleForumSummaryViewStatement = "SELECT id, title FROM Forum";
     private final static String forumSummaryViewStatement = "SELECT * FROM Forum ORDER BY Forum.title";
-    private final static String topicSummaryStatement = "SELECT id, title FROM Topic;
+    private final static String topicSummaryStatement = "SELECT id, title FROM Topic";
 
     public static  Result<List<SimpleForumSummaryView>> getSimpleSummary(Connection c){ 
         ResultSet rst;
@@ -59,28 +60,36 @@ public class Forum {
             rst = pstmt.executeQuery();
             while(rst.next()){
                 long forumID = rst.getLong("id");
-                String title = rst.getString("title");
-                long latestTopic;
-                String latestTitle;
-                try (PreparedStatement pstmt = c.prepareStatement(topicSummaryStatement)){                    
-                    secondRst = pstmt.executeQuery();
+                String forumTitle = rst.getString("title");
+                long latestTopic = 0;
+                String latestTopicTitle = "";
+                try (PreparedStatement SecondPstmt = c.prepareStatement(topicSummaryStatement)) {                    
+                    secondRst = SecondPstmt.executeQuery();
                     int latestTime = 0;
                     while(secondRst.next()) {
-                        String title = secondRst.getString("title"); 
+                        String topicTitle = secondRst.getString("title"); 
                         long topicID = secondRst.getLong("id");                 
-                        SimpleTopicSummaryView topic = new SimpleTopicSummaryView(topicID, forumID, title));
-                        int currentTime = topic.getLatestPost(c, id).getValue().getPostedAt();
+                        SimpleTopicSummaryView topic = new SimpleTopicSummaryView(topicID, forumID, topicTitle);
+                        int currentTime = Topic.getLatestPost(c, topicID).getValue().getPostedAt();
                         if (currentTime > latestTime) {
                             latestTopic = topicID;
                             latestTime = currentTime;
-                            latestTitle = secondRst.getString("title");
+                            latestTopicTitle = secondRst.getString("title");
                         }
                     }
-                list.add(new ForumSummaryView(forumID, title, new SimpleTopicSummaryView(forumID, latestTopic, latestTitle));                    
+                    forumList.add(new ForumSummaryView(forumID, forumTitle, new SimpleTopicSummaryView(forumID, latestTopic, latestTopicTitle))); 
+                    if(!forumList.isEmpty()){
+                        return Result.success(forumList);
+                    }
+                    else{
+                        return Result.failure("There are no forums for this table");
+                    }
+                }                   
                 catch (SQLException e) {
                     return Result.fatal("Unknown error");
                 }
-            }            
+            }
+            return Result.failure("There are no forums");            
         }
         catch (SQLException e) {
             return Result.fatal("Unknown error");

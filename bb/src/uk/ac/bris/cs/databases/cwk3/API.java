@@ -41,7 +41,7 @@ public class API implements APIProvider {
 
     @Override
     public Result<List<SimpleForumSummaryView>> getSimpleForums() {
-    	return Forum.getSummary(c);
+    	return Forum.getSimpleSummary(c);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class API implements APIProvider {
 
     @Override
     public Result<List<ForumSummaryView>> getForums() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Forum.getSummary(c);
     }
 
     @Override

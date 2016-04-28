@@ -16,7 +16,7 @@ public class Post {
     private static final String getLikersStatement = 
         "SELECT name, username, stuID " +
         "FROM Person " +
-        "JOIN PostLikers ON PostLikers.personID = Person.id " +
+        "JOIN PostLikers ON PostLikers.personID = Person.username " +
         "JOIN Post ON PostLikers.postID = Post.id " +
         "WHERE Post.id=?" +
         "ORDER BY Person.name";
@@ -45,11 +45,11 @@ public class Post {
         }
         try (PreparedStatement pstmt = c.prepareStatement(createPostSQL)) {
             pstmt.setLong(2, topicId);
+            pstmt.setString(3, username);
             pstmt.setString(4, text);
 
-            pstmt.setLong(1, 1);
-            pstmt.setString(3, username);
-            pstmt.setLong(5, 1);
+            pstmt.setLong(1, 0);
+            pstmt.setLong(5, 0);
 
             pstmt.executeQuery();
             return Result.success();

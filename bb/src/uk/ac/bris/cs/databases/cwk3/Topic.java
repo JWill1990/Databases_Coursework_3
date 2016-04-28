@@ -26,13 +26,13 @@ public class Topic {
             "Person.name, Post.text, Post.postedAt " +
         "FROM Post " + 
         "JOIN Topic ON Post.topicID=Topic.id " +
-        "JOIN Person ON Post.personID=Person.id " +
+        "JOIN Person ON Post.personID=Person.username " +
         "WHERE Topic.id=?" +
         "ORDER BY Post.postedAt";
     private static final String getLikersStatement = 
         "SELECT name, username, stuID " +
         "FROM Person " +
-        "JOIN TopicLikers ON TopicLikers.personID = Person.id " +
+        "JOIN TopicLikers ON TopicLikers.personID = Person.username " +
         "JOIN Topic ON TopicLikers.topicID = Topic.id " +
         "WHERE Topic.id=?" +
         "ORDER BY Person.name";
@@ -41,7 +41,7 @@ public class Topic {
             "Person.username, Post.text, Post.postedAt, " +
         "FROM Post " + 
         "JOIN Topic ON Post.topicID=Topic.id " +
-        "JOIN Person ON Post.personID=Person.id " +
+        "JOIN Person ON Post.personID=Person.username " +
         "JOIN Forum ON Topic.forumID=Forum.id " +
         "WHERE Topic.id=?" +
         "ORDER BY Post.postedAt";

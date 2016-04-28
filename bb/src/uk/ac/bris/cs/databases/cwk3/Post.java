@@ -47,9 +47,9 @@ public class Post {
             pstmt.setLong(2, topicId);
             pstmt.setString(3, username);
             pstmt.setString(4, text);
+            pstmt.setLong(5, System.currentTimeMillis()); //Change to server time?
 
             pstmt.setLong(1, 0);
-            pstmt.setLong(5, 0);
 
             pstmt.executeQuery();
             return Result.success();

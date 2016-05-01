@@ -130,7 +130,7 @@ public class Forum {
                 ForumView fv = new ForumView(forumId, forumTitle, forumTopics);
                 return Result.success(fv);
             }
-            else{ return Result.failure("Forum does not exist"); }			          
+            elsec{ return Result.failure("Forum does not exist"); }			          
         }
         catch (SQLException e) {
             return Result.fatal("Unknown error");

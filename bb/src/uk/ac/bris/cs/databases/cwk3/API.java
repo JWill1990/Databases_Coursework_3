@@ -86,7 +86,7 @@ public class API implements APIProvider {
 
     @Override
     public Result<ForumView> getForum(long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Forum.getDetailedForum(c, id);
     }
 
     @Override

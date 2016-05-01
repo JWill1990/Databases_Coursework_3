@@ -11,6 +11,8 @@ import uk.ac.bris.cs.databases.api.Result;
 import uk.ac.bris.cs.databases.api.SimpleForumSummaryView;
 import uk.ac.bris.cs.databases.api.SimpleTopicView;
 import uk.ac.bris.cs.databases.api.SimplePostView;
+import uk.ac.bris.cs.databases.api.PersonView;
+import uk.ac.bris.cs.databases.api.PostView;
 
 public class Topic {
 
@@ -20,11 +22,27 @@ public class Topic {
         "JOIN Post WHERE (Topic.id=? " +
             "AND Topic.id=Post.topicID)";
     private static final String getSimpleSQL = 
-        "SELECT Topic.id AS Topic_id, Topic.title, Post.postNumber, " +
+        "SELECT Topic.id AS Topic_id, Topic.title, " +
             "Person.name, Post.text, Post.postedAt " +
         "FROM Post " + 
         "JOIN Topic ON Post.topicID=Topic.id " +
-        "JOIN Person ON Post.personID=Person.id " +
+        "JOIN Person ON Post.personID=Person.username " +
+        "WHERE Topic.id=?" +
+        "ORDER BY Post.postedAt";
+    private static final String getLikersStatement = 
+        "SELECT name, username, stuID " +
+        "FROM Person " +
+        "JOIN TopicLikers ON TopicLikers.personID = Person.username " +
+        "JOIN Topic ON TopicLikers.topicID = Topic.id " +
+        "WHERE Topic.id=?" +
+        "ORDER BY Person.name";
+    private static final String latestPostSQL =
+        "SELECT Forum.id AS Forum_id, Topic.id AS Topic_id, Person.name, " +
+            "Person.username, Post.text, Post.postedAt, " +
+        "FROM Post " + 
+        "JOIN Topic ON Post.topicID=Topic.id " +
+        "JOIN Person ON Post.personID=Person.username " +
+        "JOIN Forum ON Topic.forumID=Forum.id " +
         "WHERE Topic.id=?" +
         "ORDER BY Post.postedAt";
 
@@ -111,4 +129,73 @@ public class Topic {
             return Result.fatal("Unknown error");
         }
     }
+
+    /**
+     * Get all people who have liked a particular topic, ordered by name
+     * alphabetically.
+     * @param topicId The topic id. Must exist.
+     * @return Success (even if the list is empty) if the topic exists,
+     * failure if it does not, fatal in case of database errors.
+     */
+    public static Result<List<PersonView>> getLikers(Connection c, long topicId){
+        ResultSet rst;
+        ArrayList<PersonView> personList = new ArrayList<PersonView>();
+
+        if(!CheckExists.topic(c, topicId)){
+            return Result.failure("Topic does not exist");
+        }
+
+        try (PreparedStatement pstmt = c.prepareStatement(getLikersStatement)) {
+            rst = pstmt.executeQuery();
+            pstmt.setLong(1, topicId);
+            while(rst.next()) {
+                String name = rst.getString("name").trim();
+                String username=rst.getString("username").trim();
+                String stuId=rst.getString("stuId").trim();                
+                personList.add(new PersonView(name, username, stuId));
+            }
+            return Result.success(personList);
+        }
+        catch (SQLException e) {
+            return Result.fatal("Unknown error");
+        }
+    }
+
+    /**
+     * Get the latest post in a topic.
+     * @param topicId The topic. Must exist.
+     * @return Success and a view of the latest post if one exists,
+     * failure if the topic does not exist, fatal on database errors.
+     */
+    public static Result<PostView> getLatestPost(Connection c, long topicId) {
+        ResultSet rst;
+
+        try(PreparedStatement pstmt= c.prepareStatement(latestPostSQL)){
+            pstmt.setLong(1, topicId);
+            rst = pstmt.executeQuery();
+
+            if(rst.last()){
+                long postId = rst.getLong("Post_id");
+                long forumId = rst.getLong("Forum_id");
+                int postNumber = rst.getRow();
+                String authorName = rst.getString("name");
+                String authorUserName = rst.getString("username");
+                String text = rst.getString("text");
+                int postedAt = rst.getInt("postedAt");
+                int likes = Post.getLikers(c, postId).getValue().size();
+                PostView p = 
+                    new PostView(forumId, topicId, postNumber, authorName,
+                    authorUserName, text, postedAt, likes);
+                return Result.success(p);
+            }
+            else{
+                return Result.failure("There are no posts for this topic.");
+            }
+        }
+        catch (SQLException e) {
+            return Result.fatal("Unknown error");
+        }
+    }
+
+
 }

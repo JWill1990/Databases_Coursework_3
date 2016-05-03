@@ -17,15 +17,17 @@ import uk.ac.bris.cs.databases.api.ForumView;
 
 public class Forum {
 
-    private final static String simpleForumSummaryViewStatement = "SELECT id, title FROM Forum";
-    private final static String forumSummaryViewStatement = "SELECT * FROM Forum ORDER BY Forum.title";
-    private final static String topicSummaryStatement = "SELECT id, title FROM Topic";
+    private final static String simpleForumSummaryViewStatement = "SELECT * FROM Forum ORDER BY Forum.title";
+    private final static String topicSummaryStatement = 
+            "SELECT Topic.id, Topic.title FROM Topic " +
+            "JOIN Forum ON Forum.id = Topic.forumID " +
+            "WHERE Forum.id=?";
     private static final String getDetailedForumSQL =
-		  "SELECT Forum.id AS Forum_id, Forum.title, " +
-		  "Topic.id AS Topic_id, Topic.title " +
-		  "FROM Forum " +
-		  "JOIN Topic ON Topic.forumID=Forum.id " +
-		  "WHERE Forum.id=?";
+            "SELECT Forum.id AS Forum_id, Forum.title, " +
+            "Topic.id AS Topic_id, Topic.title " +
+            "FROM Forum " +
+            "JOIN Topic ON Topic.forumID=Forum.id " +
+            "WHERE Forum.id=?";
 
     /**
      * Get the "main page" containing a list of forums ordered alphabetically
@@ -64,29 +66,33 @@ public class Forum {
 
     public static Result<List<ForumSummaryView>> getSummary(Connection c)
     {
+        
         ResultSet rst;
         ResultSet secondRst;
-        ArrayList forumList = new ArrayList();
+        ArrayList<ForumSummaryView> forumList = new ArrayList<ForumSummaryView>();
         int currentLatest = 0;
-        try (PreparedStatement pstmt = c.prepareStatement(forumSummaryViewStatement)){
+        try (PreparedStatement pstmt = c.prepareStatement(simpleForumSummaryViewStatement)){
             rst = pstmt.executeQuery();
             while(rst.next()){
                 long forumID = rst.getLong("id");
                 String forumTitle = rst.getString("title");
                 long latestTopic = 0;
                 String latestTopicTitle = "";
-                try (PreparedStatement SecondPstmt = c.prepareStatement(topicSummaryStatement)) {                    
-                    secondRst = SecondPstmt.executeQuery();
+                try (PreparedStatement secondPstmt = c.prepareStatement(topicSummaryStatement)) { 
+                    secondPstmt.setLong(1, forumID);                   
+                    secondRst = secondPstmt.executeQuery();
                     int latestTime = 0;
                     while(secondRst.next()) {
                         String topicTitle = secondRst.getString("title"); 
                         long topicID = secondRst.getLong("id");                 
                         SimpleTopicSummaryView topic = new SimpleTopicSummaryView(topicID, forumID, topicTitle);
-                        int currentTime = Topic.getLatestPost(c, topicID).getValue().getPostedAt();
-                        if (currentTime > latestTime) {
+                        int currentTime = 0;
+                        /*int currentTime = Topic.getLatestPost(c, topicID).getValue().getPostedAt();   
+                        System.out.println("here?");  */                  
+                        if (currentTime >= latestTime) {
                             latestTopic = topicID;
                             latestTime = currentTime;
-                            latestTopicTitle = secondRst.getString("title");
+                            latestTopicTitle = topicTitle;
                         }
                     }
                     forumList.add(new ForumSummaryView(forumID, forumTitle, new SimpleTopicSummaryView(forumID, latestTopic, latestTopicTitle))); 

@@ -23,10 +23,10 @@ public class Forum {
             "JOIN Forum ON Forum.id = Topic.forumID " +
             "WHERE Forum.id=?";
     private static final String getDetailedForumSQL =
-            "SELECT Forum.id AS Forum_id, Forum.title, " +
-            "Topic.id AS Topic_id, Topic.title " +
-            "FROM Forum " +
-            "JOIN Topic ON Topic.forumID=Forum.id " +
+            "SELECT Forum.title AS forumTitle, Forum.id AS forumID, " +
+            "Topic.id AS topicID, Topic.title AS topicTitle " +
+            "FROM Topic " +
+            "JOIN Forum ON Topic.forumID=Forum.id " +
             "WHERE Forum.id=?";
 
     /**
@@ -124,21 +124,22 @@ public class Forum {
         ResultSet rst; 
         ArrayList<SimpleTopicSummaryView> forumTopics = new ArrayList<SimpleTopicSummaryView>();  
         try (PreparedStatement pstmt = c.prepareStatement(getDetailedForumSQL)){
+            
             pstmt.setLong(1, forumId);
+            
             rst = pstmt.executeQuery();
-            if(rst.next()) {
-                String forumTitle = rst.getString("Forum.title");
-                while(rst.next()) {                   
-                    long topicId = rst.getLong("Topic_id");
-                    String topicTitle = rst.getString("Topic.title");
-                    forumTopics.add(new SimpleTopicSummaryView(forumId, topicId, topicTitle));
-                }
-                ForumView fv = new ForumView(forumId, forumTitle, forumTopics);
-                return Result.success(fv);
+            
+            String forumTitle = rst.getString("ForumTitle"); 
+            System.out.println("Here? Failed");
+            while (rst.next()) {                                 
+                long topicId = rst.getLong("TopicID");
+                String topicTitle = rst.getString("TopicTitle");
+                forumTopics.add(new SimpleTopicSummaryView(forumId, topicId, topicTitle));                   
             }
-            else{ return Result.failure("Forum does not exist"); }			          
+            ForumView fv = new ForumView(forumId, forumTitle, forumTopics);
+            return Result.success(fv);               		          
         }
-        catch (SQLException e) {
+        catch (SQLException e) {            
             return Result.fatal("Unknown error");
         }
     } 

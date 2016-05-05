@@ -132,8 +132,8 @@ public class Forum {
             String forumTitle = rst.getString("ForumTitle"); 
             System.out.println("Here? Failed");
             while (rst.next()) {                                 
-                long topicId = rst.getLong("TopicId");
-                String topicTitle = rst.getString("Topic.title");
+                long topicId = rst.getLong("TopicID");
+                String topicTitle = rst.getString("TopicTitle");
                 forumTopics.add(new SimpleTopicSummaryView(forumId, topicId, topicTitle));                   
             }
             ForumView fv = new ForumView(forumId, forumTitle, forumTopics);

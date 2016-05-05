@@ -76,7 +76,7 @@ public class API implements APIProvider {
 
     @Override
     public Result createPost(long topicId, String username, String text) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Post.createPost(c, topicId, username, text);
     }
 
     @Override

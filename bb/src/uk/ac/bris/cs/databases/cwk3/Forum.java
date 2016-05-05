@@ -19,12 +19,14 @@ import uk.ac.bris.cs.databases.api.ForumView;
 
 public class Forum {
 
-    private final static String simpleForumSummaryViewStatement = "SELECT * FROM Forum ORDER BY Forum.title";
+    private final static String simpleForumSummaryViewStatement = 
+        "SELECT * FROM Forum ORDER BY Forum.title";
     private final static String topicSummaryStatement = 
-            "SELECT Topic.id, Topic.title FROM Topic " +
-            "JOIN Forum ON Forum.id = Topic.forumID " +
-            "WHERE Forum.id=?";
+        "SELECT Topic.id, Topic.title FROM Topic " +
+        "JOIN Forum ON Forum.id = Topic.forumID " +
+        "WHERE Forum.id=?";
     private static final String getDetailedForumSQL =
+<<<<<<< HEAD
             "SELECT Forum.title AS forumTitle, Forum.id AS forumID, " +
             "Topic.id AS topicID, Topic.title AS topicTitle " +
             "FROM Topic " +
@@ -54,6 +56,13 @@ public class Forum {
         "JOIN Topic ON TopicLikers.topicID = Topic.id " +
         "WHERE Topic.id=?";
 
+=======
+        "SELECT Forum.title AS forumTitle, Forum.id AS forumID, " +
+        "Topic.id AS topicID, Topic.title AS topicTitle " +
+        "FROM Topic " +
+        "JOIN Forum ON Topic.forumID=Forum.id " +
+        "WHERE Forum.id=?";
+>>>>>>> a15c38d818c70437fba6652d47a4cf06ece1b504
 
     /**
      * Get the "main page" containing a list of forums ordered alphabetically

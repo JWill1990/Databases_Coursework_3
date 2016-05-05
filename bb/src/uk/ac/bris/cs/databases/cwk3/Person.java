@@ -20,7 +20,11 @@ public class Person {
         "SELECT name, username, stuId " +
         "FROM Person WHERE username = ?";
 
-
+    /**
+     * Get a list of all users in the system as a map username -> name.
+     * @return A map with one entry per user of the form username -> name
+     * (note that usernames are unique).
+     */
     public static  Result<Map<String, String>> getUsers(Connection c){ 
         PreparedStatement pstmt;
         ResultSet rst;
@@ -34,7 +38,7 @@ public class Person {
                 String username=rst.getString("username").trim();
                 System.out.println(name+","+username);
                 System.out.println(rst.getRow());
-                maps.put(name,username);
+                maps.put(username,name);
             }
 
             /*  condition to check if the map/databse is empty*/
@@ -50,6 +54,12 @@ public class Person {
         }
     }
 
+    /**
+     * Get a PersonView for the person with the given username.
+     * @param username - the username to search for, cannot be empty.
+     * @return If a person with the given username exists, a fully populated
+     * PersonView. Otherwise, failure (or fatal on a database error).
+     */
     public static  Result<PersonView> getPersonView(Connection c, String uname){
         ResultSet rst;
         /*try with statement closes closes the recources after it is done*/

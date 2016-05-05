@@ -12,6 +12,8 @@ import java.util.Map;
 import uk.ac.bris.cs.databases.api.Result;
 import uk.ac.bris.cs.databases.api.SimpleForumSummaryView;
 import uk.ac.bris.cs.databases.api.SimpleTopicSummaryView;
+import uk.ac.bris.cs.databases.api.AdvancedForumSummaryView;
+import uk.ac.bris.cs.databases.api.TopicSummaryView;
 import uk.ac.bris.cs.databases.api.ForumSummaryView;
 import uk.ac.bris.cs.databases.api.ForumView;
 
@@ -28,6 +30,30 @@ public class Forum {
             "FROM Topic " +
             "JOIN Forum ON Topic.forumID=Forum.id " +
             "WHERE Forum.id=?";
+    private static final String getAdvancedForumsSQL = 
+            "SELECT Post.id, Post.topicID, Person.username " +
+            "Post.postedAt, Person.name, Topic.title " +
+            "FROM Post JOIN Topic ON Topic.id=Post.topicID " +
+            "JOIN Forum ON Topic.forumID=Forum.id " +
+            "JOIN Person ON Person.username = Post.personID " +
+            " WHERE Forum.id = ? " +
+            "ORDER BY Post.postedAt";
+    private static final String latestPostSQL =
+            "SELECT Forum.id AS Forum_id, Topic.id AS Topic_id, Person.name, " +
+            "Person.username, Post.text, Post.postedAt, " +
+            "FROM Post " + 
+            "JOIN Topic ON Post.topicID=Topic.id " +
+            "JOIN Person ON Post.personID=Person.username " +
+            "JOIN Forum ON Topic.forumID=Forum.id " +
+            "WHERE Topic.id=?" +
+            "ORDER BY Post.postedAt";
+    private static final String getLikersStatement = 
+        "SELECT count(*) " +
+        "FROM Person " +
+        "JOIN TopicLikers ON TopicLikers.personID = Person.username " +
+        "JOIN Topic ON TopicLikers.topicID = Topic.id " +
+        "WHERE Topic.id=?";
+
 
     /**
      * Get the "main page" containing a list of forums ordered alphabetically
@@ -130,7 +156,6 @@ public class Forum {
             rst = pstmt.executeQuery();
             
             String forumTitle = rst.getString("ForumTitle"); 
-            System.out.println("Here? Failed");
             while (rst.next()) {                                 
                 long topicId = rst.getLong("TopicID");
                 String topicTitle = rst.getString("TopicTitle");

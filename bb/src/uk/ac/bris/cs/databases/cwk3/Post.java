@@ -48,7 +48,8 @@ public class Post {
             pstmt.setString(2, username);
             pstmt.setString(3, text);
             pstmt.setLong(4, System.currentTimeMillis()); //Change to server time?
-            pstmt.executeQuery();
+            pstmt.executeUpdate(); //Use update method to write to db
+            c.commit(); //Commit changes
             return Result.success();
         }
         catch (SQLException e) {

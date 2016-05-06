@@ -2,6 +2,7 @@ package uk.ac.bris.cs.databases.cwk3;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -53,6 +54,10 @@ public class Topic {
         "INSERT INTO TopicFavourites values (?,?)";
     private static final String removeFavSQL =
         "DELETE FROM TopicLikers WHERE topicID=? AND personID=?";
+    private static final String createTopic =
+        "INSERT INTO Topic values (null, ?, ?)";
+    private static final String createPostSQL = 
+        "INSERT INTO Post values (null,?,?,?,?)";
 
 
     /**
@@ -277,5 +282,32 @@ public class Topic {
         }                              
     }
 
+
+    public static Result createTopic(Connection c, long forumId, String username, String title, String text){
+        if(!CheckExists.username(c, username)){
+            return Result.failure("Person does not exist");
+        }
+        if(!CheckExists.forumId(c, forumId)){
+            return Result.failure("Forum does not exist");
+        }
+        try(PreparedStatement pstmt = c.prepareStatement(createTopic, Statement.RETURN_GENERATED_KEYS)){
+            pstmt.setLong(1, forumId);
+            pstmt.setString(2, title);
+            pstmt.executeUpdate();
+            ResultSet topicKeys = pstmt.getGeneratedKeys();
+            if(topicKeys.next()) {
+                long topicId = topicKeys.getInt(1);
+                Post.createPost(c, topicId, username, text);
+                c.commit();
+                return Result.success();
+            }
+            else{
+                return Result.failure("Topic not generated");
+            }
+        }
+        catch (SQLException e) {
+            return Result.fatal("Unknown error");
+        }  
+    }
 
 }

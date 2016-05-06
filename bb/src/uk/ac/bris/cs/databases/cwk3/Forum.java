@@ -152,8 +152,8 @@ public class Forum {
 
     public static Result addForum(Connection c, String title){
         int row=0;
-        System.out.println(CheckExists.Forum(c, title));
-        if(!CheckExists.Forum(c, title)){
+        System.out.println(CheckExists.forum(c, title));
+        if(!CheckExists.forum(c, title)){
 
             try(PreparedStatement pstmt=c.prepareStatement(addForum)){
                 pstmt.setString(1, title);

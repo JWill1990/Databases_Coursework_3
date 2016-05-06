@@ -47,10 +47,10 @@ CREATE TABLE TopicFavourites (
 	personID INTEGER REFERENCES Person(id)
 );
 
-INSERT INTO Person values (null,'JackW','Jack','jw1234');
-INSERT INTO Person values (null,'LiamW','Liam','lw1234');
-INSERT INTO Person values (null,'DurgeshP','Durgesh','dp1234');
-INSERT INTO Person values (null,'DavidB','David',null);
+INSERT INTO Person values (null,'Jack','JackW','jw1234');
+INSERT INTO Person values (null,'Liam','LiamW','lw1234');
+INSERT INTO Person values (null,'Durgesh','DurgeshP','dp1234');
+INSERT INTO Person values (null,'David','DavidB',null);
 
 INSERT INTO Forum values (null,'Database');
 INSERT INTO Forum values (null,'Oops');

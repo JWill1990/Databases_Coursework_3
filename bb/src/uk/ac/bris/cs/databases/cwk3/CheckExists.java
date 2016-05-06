@@ -25,6 +25,9 @@ public class CheckExists {
     private static final String checkForum =
       	"SELECT title from Forum where title = ?";
 
+    private static final String checkForumID =
+      	"SELECT title from Forum where id = ?";
+
     public static boolean post(Connection c, long postId) {
         try (PreparedStatement pstmt = c.prepareStatement(checkPost)) {
             pstmt.setLong(1, postId);
@@ -73,9 +76,25 @@ public class CheckExists {
         }
     }
 
-    public static boolean Forum(Connection c, String title) {
+    public static boolean forum(Connection c, String title) {
         try (PreparedStatement pstmt = c.prepareStatement(checkForum)) {
             pstmt.setString(1, title);
+            ResultSet rst = pstmt.executeQuery();
+            if(rst.next()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public static boolean forumId(Connection c, long id) {
+        try (PreparedStatement pstmt = c.prepareStatement(checkForumID)) {
+            pstmt.setLong(1, id);
             ResultSet rst = pstmt.executeQuery();
             if(rst.next()){
                 return true;

@@ -106,7 +106,7 @@ public class API implements APIProvider {
 
     @Override
     public Result createTopic(long forumId, String username, String title, String text) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Topic.createTopic(c, forumId, username, title, text);
     }
 
     @Override

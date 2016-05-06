@@ -23,14 +23,14 @@ import uk.ac.bris.cs.databases.api.TopicView;
  */
 public class API implements APIProvider {
 
-	
+
     private final Connection c;
     public API(Connection c) {
         this.c = c;
     }
 
     @Override
-    public Result<Map<String, String>> getUsers() {           
+    public Result<Map<String, String>> getUsers() {
         return Person.getUsers(c);
     }
 
@@ -50,7 +50,7 @@ public class API implements APIProvider {
     }
 
     @Override
-    public Result<List<PersonView>> getLikers(long topicId) {     
+    public Result<List<PersonView>> getLikers(long topicId) {
         return Topic.getLikers(c, topicId);
     }
 
@@ -71,7 +71,7 @@ public class API implements APIProvider {
 
     @Override
     public Result createForum(String title) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        	return Forum.addForum(c,title);
     }
 
     @Override

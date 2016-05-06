@@ -34,11 +34,8 @@ public class Forum {
         "JOIN Forum ON Topic.forumID=Forum.id " +
         "WHERE Forum.id=?";
 
-    private static final String countForum=
-    		"SELECT * from Forum";
-
     private static final String addForum=
-    		"INSERT into Forum values (?, ?)";
+        "INSERT into Forum values (null, ?)";
 
     /**
      * Get the "main page" containing a list of forums ordered alphabetically
@@ -87,7 +84,7 @@ public class Forum {
                 long forumID = rst.getLong("id");
                 String forumTitle = rst.getString("title");
                 long latestTopic = 0;
-                String latestTopicTitle = "";
+                String latestTopicTitle = "no topics yet";
                 try (PreparedStatement secondPstmt = c.prepareStatement(topicSummaryStatement)) {
                     secondPstmt.setLong(1, forumID);
                     secondRst = secondPstmt.executeQuery();
@@ -154,40 +151,23 @@ public class Forum {
     }
 
     public static Result addForum(Connection c, String title){
-    	int row=0;
-    	System.out.println(CheckExists.Forum(c, title));
-    	if(!CheckExists.Forum(c, title)){
+        int row=0;
+        System.out.println(CheckExists.Forum(c, title));
+        if(!CheckExists.Forum(c, title)){
 
-	           try (PreparedStatement pstmt = c.prepareStatement(countForum)) {
-	               ResultSet rs=pstmt.executeQuery();
-	               while(rs.next()){row++;}/*this counts the total number of exsitingrows*/
-	               System.out.println("TOtal no of rows are"+row);
-	           }catch (SQLException e) {
-	               System.out.println("Exception in 1st is "+e);
-	        	   return Result.fatal("Unknown error");
-	               }
-
-	           try(PreparedStatement pstmt=c.prepareStatement(addForum)){
-	        	   pstmt.setInt(1, row+1);
-	        	   pstmt.setString(2, title);
-
-	        	   if(TestValidInput.Validator(title)){
-		        	   pstmt.executeUpdate(); //Use update method to write to db
-		        	   c.commit();
-		        	   return Result.success();
-	        	   	}
-	        	   else {
-	        		   return Result.failure("Invalid String Input");
-	        	   }
-
-	           }catch(Exception e){
-	        	   System.out.println("Exception in 2nd is "+e);
-	        	   return Result.failure("Unexpected failure");
-	        	   }
-	           }
-    	else{
-    		return Result.failure("Forum exists");
-    	}
+            try(PreparedStatement pstmt=c.prepareStatement(addForum)){
+                pstmt.setString(1, title);
+                pstmt.executeUpdate(); //Use update method to write to db
+                c.commit();
+                return Result.success();
+            }
+            catch(Exception e){
+                return Result.failure("Unexpected failure");
+            }
+        }
+        else{
+            return Result.failure("Forum exists");
+        }
 
     }
 

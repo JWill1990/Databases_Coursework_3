@@ -22,7 +22,7 @@ public class Person {
         "FROM Person WHERE username = ?";
 
     private final static String addPerson=
-    	"INSERT INTO Person values (?,?,?)";
+    	"INSERT INTO Person values (null,?,?,?)";
 
     /**
      * Get a list of all users in the system as a map username -> name.
@@ -84,31 +84,32 @@ public class Person {
         }
         //return Result.fatal("No error ");
     }
-    
-    public static Result addNewPerson(Connection c, String name, String username, String studentId ){
-        	try(PreparedStatement pstmt=c.prepareStatement(addPerson)){
-        		pstmt.setString(1,username);
-        		pstmt.setString(2,name);
-        		pstmt.setString(3,studentId);
 
-        		if(!CheckExists.username(c, username)){
-        			if(TestValidInput.Validator(name) && TestValidInput.Validator(username) && TestValidInput.Validator(studentId)){
-    	    			pstmt.executeUpdate();
-    	    			c.commit();
-    	    			return Result.success();
-        			}
-    	    		else{
-    	    			return Result.failure("Invalid String used");
-    	    		}
-        		}
-        		else{
-        			return Result.failure("User Exists");
-        		}
-        	}catch(Exception e){
-        		System.out.print("Excpetion is "+e);
-        		return Result.fatal("Unexpected error");
-        	}
+    public static Result addNewPerson(Connection c, String name, String username, String studentId ){
+        try(PreparedStatement pstmt=c.prepareStatement(addPerson)){
+            pstmt.setString(1,username);
+            pstmt.setString(2,name);
+            pstmt.setString(3,studentId);
+
+            if(!CheckExists.username(c, username)){
+                if(TestValidInput.Validator(name) && TestValidInput.Validator(username) && TestValidInput.Validator(studentId)){
+                    pstmt.executeUpdate();
+                    c.commit();
+                    return Result.success();
+                }
+                else{
+                    return Result.failure("Invalid String used");
+                }
+            }
+            else{
+                return Result.failure("User Exists");
+            }
         }
+        catch(Exception e){
+            System.out.print("Excpetion is "+e);
+            return Result.fatal("Unexpected error");
+        }
+    }
 
 
 }

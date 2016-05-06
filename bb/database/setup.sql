@@ -59,12 +59,12 @@ INSERT INTO Topic values (null,1,'CourseWork3');
 INSERT INTO Topic values (null,1,'General Feedback');
 INSERT INTO Topic values (null,2,'Graphics Assignment');
 
-INSERT INTO Post values (null,1,3,'What is better to use PreparedStatement or Statement for this assignment',1460286600000);
-INSERT INTO Post values (null,1,4,'This is for you to explore',1460290463000);
+INSERT INTO Post values (null,1,3,'What is better to use PreparedStatement or Statement for this assignment',1462366589);
+INSERT INTO Post values (null,1,4,'This is for you to explore',1462376589);
 
-INSERT INTO Post values (null,2,4,'General feedback will be posted here',1462882463000);
+INSERT INTO Post values (null,2,4,'General feedback will be posted here',1462452989);
 
-INSERT INTO Post values (null,3,2,'Why is there a topic for this?',146288246);
+INSERT INTO Post values (null,3,2,'Why is there a topic for this?',1462366589);
 
 INSERT INTO TopicLikers values (1, 1);
 INSERT INTO TopicLikers values (2, 3);

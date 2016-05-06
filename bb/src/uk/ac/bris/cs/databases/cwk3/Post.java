@@ -48,7 +48,7 @@ public class Post {
             pstmt.setLong(1, topicId);
             pstmt.setInt(2, personID);
             pstmt.setString(3, text);
-            pstmt.setLong(4, System.currentTimeMillis()); //Change to server time?
+            pstmt.setLong(4, System.currentTimeMillis()/1000); //Change to server time?
             pstmt.executeUpdate(); //Use update method to write to db
             c.commit(); //Commit changes
             return Result.success();

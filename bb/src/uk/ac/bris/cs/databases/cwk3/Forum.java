@@ -26,26 +26,21 @@ public class Forum {
         "JOIN Forum ON Forum.id = Topic.forumID " +
         "WHERE Forum.id=?";
     private static final String getDetailedForumSQL =
-<<<<<<< HEAD
             "SELECT Forum.title AS forumTitle, Forum.id AS forumID, " +
             "Topic.id AS topicID, Topic.title AS topicTitle " +
             "FROM Topic " +
             "JOIN Forum ON Topic.forumID=Forum.id " +
             "WHERE Forum.id=?";
     private static final String getAdvancedForumsSQL = 
-            "SELECT Post.id, Post.topicID, Person.username " +
-            "Post.postedAt, Person.name, Topic.title " +
-            "FROM Post JOIN Topic ON Topic.id=Post.topicID " +
+            "SELECT Forum.id AS ForumID, Forum.title AS ForumTitle, Topic.id AS TopicID,  " +
+            "Topic.title AS TopicTitle FROM Topic " +
             "JOIN Forum ON Topic.forumID=Forum.id " +
-            "JOIN Person ON Person.username = Post.personID " +
-            " WHERE Forum.id = ? " +
-            "ORDER BY Post.postedAt";
+            "WHERE Forum.id=?";
     private static final String latestPostSQL =
             "SELECT Forum.id AS Forum_id, Topic.id AS Topic_id, Person.name, " +
             "Person.username, Post.text, Post.postedAt, " +
             "FROM Post " + 
             "JOIN Topic ON Post.topicID=Topic.id " +
-            "JOIN Person ON Post.personID=Person.username " +
             "JOIN Forum ON Topic.forumID=Forum.id " +
             "WHERE Topic.id=?" +
             "ORDER BY Post.postedAt";
@@ -55,14 +50,6 @@ public class Forum {
         "JOIN TopicLikers ON TopicLikers.personID = Person.username " +
         "JOIN Topic ON TopicLikers.topicID = Topic.id " +
         "WHERE Topic.id=?";
-
-=======
-        "SELECT Forum.title AS forumTitle, Forum.id AS forumID, " +
-        "Topic.id AS topicID, Topic.title AS topicTitle " +
-        "FROM Topic " +
-        "JOIN Forum ON Topic.forumID=Forum.id " +
-        "WHERE Forum.id=?";
->>>>>>> a15c38d818c70437fba6652d47a4cf06ece1b504
 
     /**
      * Get the "main page" containing a list of forums ordered alphabetically
@@ -176,4 +163,5 @@ public class Forum {
             return Result.fatal("Unknown error");
         }
     } 
+
 }

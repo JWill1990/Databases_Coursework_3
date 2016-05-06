@@ -58,8 +58,6 @@ public class Post {
     }
 
 
-
-
     /**
      * Get all people who have liked a particular post, ordered by name
      * alphabetically.

@@ -47,12 +47,10 @@ INSERT INTO Person values ('DavidB','David',null);
 
 INSERT INTO Forum values (null,'Database');
 INSERT INTO Forum values (null,'Oops');
-INSERT INTO Forum values (null,'C Programming Language');
 
 INSERT INTO Topic values (null,1,'CourseWork3');
 INSERT INTO Topic values (null,1,'General Feedback');
 INSERT INTO Topic values (null,2,'Graphics Assignment');
-INSERT INTO Topic values (null,3,'When is the teletext result going to be out');
 
 INSERT INTO Post values (null,1,'DurgeshP','What is better to use PreparedStatement or Statement for this assignment',1460286600000);
 INSERT INTO Post values (null,1,'DavidB','This is for you to explore',1460290463000);

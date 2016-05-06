@@ -49,7 +49,6 @@ public class Forum {
      * by title.
      * @return the list of all forums, empty list if there are none.
      */
-
     public static Result<List<ForumSummaryView>> getSummary(Connection c)
     {
         ResultSet rst;

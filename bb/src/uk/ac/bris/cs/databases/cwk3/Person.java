@@ -87,8 +87,8 @@ public class Person {
 
     public static Result addNewPerson(Connection c, String name, String username, String studentId ){
         try(PreparedStatement pstmt=c.prepareStatement(addPerson)){
-            pstmt.setString(1,username);
-            pstmt.setString(2,name);
+            pstmt.setString(1,name);
+            pstmt.setString(2,username);
             pstmt.setString(3,studentId);
 
             if(!CheckExists.username(c, username)){

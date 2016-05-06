@@ -19,8 +19,8 @@ CREATE TABLE Topic (
 
 CREATE TABLE Person (
     id INTEGER PRIMARY KEY,
-    username VARCHAR(10) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL,
+    username VARCHAR(10) NOT NULL UNIQUE,
     stuId VARCHAR(10) NULL
 );
 

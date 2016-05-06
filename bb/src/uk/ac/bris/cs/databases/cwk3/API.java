@@ -71,7 +71,7 @@ public class API implements APIProvider {
 
     @Override
     public Result createForum(String title) {
-        	return Forum.addForum(c,title);
+        return Forum.addForum(c,title);
     }
 
     @Override

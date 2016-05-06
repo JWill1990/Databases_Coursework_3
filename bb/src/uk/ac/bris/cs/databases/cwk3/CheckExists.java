@@ -15,12 +15,15 @@ public class CheckExists {
 
     private static final String checkPost =
         "SELECT id FROM Post WHERE Post.id=?";
+
     private static final String checkTopic =
         "SELECT id FROM Topic WHERE Topic.id=?";
+
     private static final String checkUsername =
         "SELECT username FROM Person WHERE Person.username=?";
 
-
+    private static final String checkForum =
+      	"SELECT title from Forum where title = ?";
 
     public static boolean post(Connection c, long postId) {
         try (PreparedStatement pstmt = c.prepareStatement(checkPost)) {
@@ -57,6 +60,22 @@ public class CheckExists {
     public static boolean username(Connection c, String username) {
         try (PreparedStatement pstmt = c.prepareStatement(checkUsername)) {
             pstmt.setString(1, username);
+            ResultSet rst = pstmt.executeQuery();
+            if(rst.next()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public static boolean Forum(Connection c, String title) {
+        try (PreparedStatement pstmt = c.prepareStatement(checkForum)) {
+            pstmt.setString(1, title);
             ResultSet rst = pstmt.executeQuery();
             if(rst.next()){
                 return true;

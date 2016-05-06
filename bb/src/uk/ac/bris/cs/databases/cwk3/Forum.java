@@ -26,30 +26,32 @@ public class Forum {
         "JOIN Forum ON Forum.id = Topic.forumID " +
         "WHERE Forum.id=?";
     private static final String getDetailedForumSQL =
-            "SELECT Forum.title AS forumTitle, Forum.id AS forumID, " +
-            "Topic.id AS topicID, Topic.title AS topicTitle " +
-            "FROM Topic " +
-            "JOIN Forum ON Topic.forumID=Forum.id " +
-            "WHERE Forum.id=?";
+        "SELECT Forum.title AS forumTitle, Forum.id AS forumID, " +
+        "Topic.id AS topicID, Topic.title AS topicTitle " +
+        "FROM Topic " +
+        "JOIN Forum ON Topic.forumID=Forum.id " +
+        "WHERE Forum.id=?";
+/*
     private static final String getAdvancedForumsSQL = 
-            "SELECT Forum.id AS ForumID, Forum.title AS ForumTitle, Topic.id AS TopicID,  " +
-            "Topic.title AS TopicTitle FROM Topic " +
-            "JOIN Forum ON Topic.forumID=Forum.id " +
-            "WHERE Forum.id=?";
+        "SELECT Forum.id AS ForumID, Forum.title AS ForumTitle, Topic.id AS TopicID,  " +
+        "Topic.title AS TopicTitle FROM Topic " +
+        "JOIN Forum ON Topic.forumID=Forum.id " +
+        "WHERE Forum.id=?";
     private static final String latestPostSQL =
-            "SELECT Forum.id AS Forum_id, Topic.id AS Topic_id, Person.name, " +
-            "Person.username, Post.text, Post.postedAt, " +
-            "FROM Post " + 
-            "JOIN Topic ON Post.topicID=Topic.id " +
-            "JOIN Forum ON Topic.forumID=Forum.id " +
-            "WHERE Topic.id=?" +
-            "ORDER BY Post.postedAt";
+        "SELECT Forum.id AS Forum_id, Topic.id AS Topic_id, Person.name, " +
+        "Person.username, Post.text, Post.postedAt, " +
+        "FROM Post " + 
+        "JOIN Topic ON Post.topicID=Topic.id " +
+        "JOIN Forum ON Topic.forumID=Forum.id " +
+        "WHERE Topic.id=?" +
+        "ORDER BY Post.postedAt";
     private static final String getLikersStatement = 
         "SELECT count(*) " +
         "FROM Person " +
         "JOIN TopicLikers ON TopicLikers.personID = Person.username " +
         "JOIN Topic ON TopicLikers.topicID = Topic.id " +
         "WHERE Topic.id=?";
+*/
 
     /**
      * Get the "main page" containing a list of forums ordered alphabetically

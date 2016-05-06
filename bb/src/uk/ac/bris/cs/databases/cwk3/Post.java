@@ -16,7 +16,7 @@ public class Post {
     private static final String getLikersStatement = 
         "SELECT name, username, stuID " +
         "FROM Person " +
-        "JOIN PostLikers ON PostLikers.personID = Person.username " +
+        "JOIN PostLikers ON PostLikers.personID = Person.id " +
         "JOIN Post ON PostLikers.postID = Post.id " +
         "WHERE Post.id=?" +
         "ORDER BY Person.name";
@@ -43,9 +43,10 @@ public class Post {
         if(!CheckExists.username(c, username)){
             return Result.failure("Username does not exist");
         }
+        int personID = Tools.usernameToID(c, username);
         try (PreparedStatement pstmt = c.prepareStatement(createPostSQL)) {
             pstmt.setLong(1, topicId);
-            pstmt.setString(2, username);
+            pstmt.setInt(2, personID);
             pstmt.setString(3, text);
             pstmt.setLong(4, System.currentTimeMillis()); //Change to server time?
             pstmt.executeUpdate(); //Use update method to write to db

@@ -17,7 +17,8 @@ CREATE TABLE Topic (
 );
 
 CREATE TABLE Person (
-    username VARCHAR(10) PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
+    username VARCHAR(10) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL,
     stuId VARCHAR(10) NULL
 );
@@ -25,25 +26,25 @@ CREATE TABLE Person (
 CREATE TABLE Post (
     id INTEGER PRIMARY KEY,
     topicID INTEGER REFERENCES Topic(id),
-    personID VARCHAR(10) REFERENCES Person(username),
+    personID INTEGER REFERENCES Person(id),
     text VARCHAR(1024) NOT NULL,
     postedAt INTEGER NOT NULL
 );
 
 CREATE TABLE TopicLikers (
     topicID INTEGER REFERENCES Topic(id),
-    personID VARCHAR(10) REFERENCES Person(username)
+    personID INTEGER REFERENCES Person(id)
 );
 
 CREATE TABLE PostLikers (
     postID INTEGER REFERENCES Post(id),
-    personID VARCHAR(10) REFERENCES Person(username)
+    personID INTEGER REFERENCES Person(id)
 );
 
-INSERT INTO Person values ('JackW','Jack','jw1234');
-INSERT INTO Person values ('LiamW','Liam','lw1234');
-INSERT INTO Person values ('DurgeshP','Durgesh','dp1234');
-INSERT INTO Person values ('DavidB','David',null);
+INSERT INTO Person values (null,'JackW','Jack','jw1234');
+INSERT INTO Person values (null,'LiamW','Liam','lw1234');
+INSERT INTO Person values (null,'DurgeshP','Durgesh','dp1234');
+INSERT INTO Person values (null,'DavidB','David',null);
 
 INSERT INTO Forum values (null,'Database');
 INSERT INTO Forum values (null,'Oops');
@@ -52,10 +53,10 @@ INSERT INTO Topic values (null,1,'CourseWork3');
 INSERT INTO Topic values (null,1,'General Feedback');
 INSERT INTO Topic values (null,2,'Graphics Assignment');
 
-INSERT INTO Post values (null,1,'DurgeshP','What is better to use PreparedStatement or Statement for this assignment',1460286600000);
-INSERT INTO Post values (null,1,'DavidB','This is for you to explore',1460290463000);
+INSERT INTO Post values (null,1,3,'What is better to use PreparedStatement or Statement for this assignment',1460286600000);
+INSERT INTO Post values (null,1,4,'This is for you to explore',1460290463000);
 
-INSERT INTO Post values (null,2,'DavidB','General feedback will be posted here',1462882463000);
+INSERT INTO Post values (null,2,4,'General feedback will be posted here',1462882463000);
 
-INSERT INTO TopicLikers values (1, 'JackW');
-INSERT INTO TopicLikers values (2, 'DurgeshP');
+INSERT INTO TopicLikers values (1, 1);
+INSERT INTO TopicLikers values (2, 3);

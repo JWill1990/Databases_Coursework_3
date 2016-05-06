@@ -34,11 +34,8 @@ public class Forum {
         "JOIN Forum ON Topic.forumID=Forum.id " +
         "WHERE Forum.id=?";
 
-    private static final String countForum=
-    		"SELECT * from Forum";
-
     private static final String addForum=
-    		"INSERT into Forum values (?, ?)";
+        "INSERT into Forum values (null, ?)";
 /*
     private static final String getAdvancedForumsSQL =
         "SELECT Forum.id AS ForumID, Forum.title AS ForumTitle, Topic.id AS TopicID,  " +
@@ -179,28 +176,11 @@ public class Forum {
         System.out.println(CheckExists.Forum(c, title));
         if(!CheckExists.Forum(c, title)){
 
-            try (PreparedStatement pstmt = c.prepareStatement(countForum)) {
-                ResultSet rs=pstmt.executeQuery();
-                while(rs.next()){row++;}/*this counts the total number of exsitingrows*/
-                System.out.println("TOtal no of rows are"+row);
-            }
-            catch (SQLException e) {
-                System.out.println("Exception in 1st is "+e);
-                return Result.fatal("Unknown error");
-            }
-
             try(PreparedStatement pstmt=c.prepareStatement(addForum)){
-                pstmt.setInt(1, row+1);
-                pstmt.setString(2, title);
-
-                if(TestValidInput.Validator(title)){
-                    pstmt.executeUpdate(); //Use update method to write to db
-                    c.commit();
-                    return Result.success();
-                }
-                else {
-                    return Result.failure("Invalid String Input");
-                }
+                pstmt.setString(1, title);
+                pstmt.executeUpdate(); //Use update method to write to db
+                c.commit();
+                return Result.success();
             }
             catch(Exception e){
                 System.out.println("Exception in 2nd is "+e);

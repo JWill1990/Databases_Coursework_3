@@ -156,7 +156,7 @@ public class Forum {
             while (rst.next()) {                                 
                 long topicId = rst.getLong("TopicID");
                 String topicTitle = rst.getString("TopicTitle");
-                forumTopics.add(new SimpleTopicSummaryView(forumId, topicId, topicTitle));                   
+                forumTopics.add(new SimpleTopicSummaryView(topicId, forumId, topicTitle));                   
             }
             ForumView fv = new ForumView(forumId, forumTitle, forumTopics);
             return Result.success(fv);               		          

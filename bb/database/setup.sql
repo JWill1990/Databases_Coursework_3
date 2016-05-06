@@ -58,5 +58,7 @@ INSERT INTO Post values (null,1,4,'This is for you to explore',1460290463000);
 
 INSERT INTO Post values (null,2,4,'General feedback will be posted here',1462882463000);
 
+INSERT INTO Post values (null,3,2,'Why is there a topic for this?',146288246);
+
 INSERT INTO TopicLikers values (1, 1);
 INSERT INTO TopicLikers values (2, 3);

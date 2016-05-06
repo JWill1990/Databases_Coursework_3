@@ -105,7 +105,7 @@ public class Forum {
                 long forumID = rst.getLong("id");
                 String forumTitle = rst.getString("title");
                 long latestTopic = 0;
-                String latestTopicTitle = "";
+                String latestTopicTitle = "no topics yet";
                 try (PreparedStatement secondPstmt = c.prepareStatement(topicSummaryStatement)) {
                     secondPstmt.setLong(1, forumID);
                     secondRst = secondPstmt.executeQuery();
@@ -183,7 +183,6 @@ public class Forum {
                 return Result.success();
             }
             catch(Exception e){
-                System.out.println("Exception in 2nd is "+e);
                 return Result.failure("Unexpected failure");
             }
         }

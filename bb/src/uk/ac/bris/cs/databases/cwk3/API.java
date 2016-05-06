@@ -96,7 +96,7 @@ public class API implements APIProvider {
 
     @Override
     public Result likeTopic(String username, long topicId, boolean like) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Topic.likeTopic(c, username, topicId, like);
     }
 
     @Override

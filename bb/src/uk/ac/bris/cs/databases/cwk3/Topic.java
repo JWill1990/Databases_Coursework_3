@@ -45,6 +45,10 @@ public class Topic {
         "JOIN Forum ON Topic.forumID=Forum.id " +
         "WHERE Topic.id=?" +
         "ORDER BY Post.postedAt";
+    private static final String createLikeSQL =
+        "INSERT INTO TopicLikers values (?,?)";
+    private static final String removeLikeSQL =
+        "DELETE FROM TopicLikers WHERE topicID=? AND personID=?";
 
 
     /**
@@ -195,6 +199,47 @@ public class Topic {
         catch (SQLException e) {
             return Result.fatal("Unknown error");
         }
+    }
+
+
+     /**
+     * Like or unlike a topic. A topic is either liked or not, when calling this
+     * twice in a row with the same parameters, the second call is a no-op (this
+     * function is idempotent).
+     * @param username - the person liking the topic (must exist).
+     * @param topicId - the topic to like (must exist).
+     * @param like - true to like, false to unlike.
+     * @return success (even if it was a no-op), failure if the person or topic
+     * does not exist and fatal in case of db errors.
+     */
+	public static Result likeTopic(Connection c, String username, long topicId, boolean like) {
+        
+        if(!CheckExists.username(c, username)){
+            return Result.failure("Person does not exist");
+        }
+
+        if(!CheckExists.topic(c, topicId)){
+            return Result.failure("Topic does not exist");
+        }
+        int personID = Tools.usernameToID(c, username);
+        String likeSQL;
+        if (like) {
+            likeSQL = createLikeSQL;
+        }
+        else {
+            likeSQL = removeLikeSQL;
+        }
+
+        try(PreparedStatement pstmt = c.prepareStatement(likeSQL)){
+            pstmt.setLong(1, topicId);
+            pstmt.setInt(2, personID);
+            pstmt.executeUpdate(); //Use update method to write to db
+            c.commit();
+            return Result.success();
+        }
+        catch (SQLException e) {
+            return Result.fatal("Unknown error");
+        }                              
     }
 
 

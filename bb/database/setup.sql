@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS TopicFavourites;
 DROP TABLE IF EXISTS PostLikers;
 DROP TABLE IF EXISTS TopicLikers;
 DROP TABLE IF EXISTS Post;
@@ -39,6 +40,11 @@ CREATE TABLE TopicLikers (
 CREATE TABLE PostLikers (
     postID INTEGER REFERENCES Post(id),
     personID INTEGER REFERENCES Person(id)
+);
+
+CREATE TABLE TopicFavourites (
+    topicID INTEGER REFERENCES Topic(id),
+	personID INTEGER REFERENCES Person(id)
 );
 
 INSERT INTO Person values (null,'JackW','Jack','jw1234');

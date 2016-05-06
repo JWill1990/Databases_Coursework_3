@@ -32,7 +32,6 @@ public class Person {
         try {
             pstmt = c.prepareStatement(getUserStatement);
             rst=pstmt.executeQuery();
-            System.out.println("test");
             while(rst.next()){
                 String name=rst.getString("name").trim();
                 String username=rst.getString("username").trim();

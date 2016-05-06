@@ -76,7 +76,7 @@ public class API implements APIProvider {
 
     @Override
     public Result createPost(long topicId, String username, String text) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Post.createPost(c, topicId, username, text);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class API implements APIProvider {
 
     @Override
     public Result<ForumView> getForum(long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Forum.getDetailedForum(c, id);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class API implements APIProvider {
 
     @Override
     public Result<List<AdvancedForumSummaryView>> getAdvancedForums() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Forum.getAdvancedForums(c);
     }
 
     @Override

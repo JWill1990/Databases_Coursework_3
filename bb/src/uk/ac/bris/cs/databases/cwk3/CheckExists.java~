@@ -18,7 +18,7 @@ public class CheckExists {
     private static final String checkTopic =
         "SELECT id FROM Topic WHERE Topic.id=?";
     private static final String checkUsername =
-        "SELECT username FROM Person WHERE Person.username=?";
+        "SELECT EXISTS(SELECT 1 FROM People WHERE u_tag="tag" LIMIT 1)";
 
 
 
@@ -58,7 +58,7 @@ public class CheckExists {
         try (PreparedStatement pstmt = c.prepareStatement(checkUsername)) {
             pstmt.setString(1, username);
             ResultSet rst = pstmt.executeQuery();
-            if(rst.next()){
+            if(rst.hasnext()){
                 return true;
             }
             else{

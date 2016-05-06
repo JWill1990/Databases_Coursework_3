@@ -31,7 +31,7 @@ public class API implements APIProvider {
 
     @Override
     public Result<Map<String, String>> getUsers() {           
-        return GetUser.GetUserInfo(c);
+        return Person.getUsers(c);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class API implements APIProvider {
 
     @Override
     public Result<List<SimpleForumSummaryView>> getSimpleForums() {
-    	return Forum.getSummary(c);
+    	return Forum.getSimpleSummary(c);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class API implements APIProvider {
 
     @Override
     public Result<List<PersonView>> getLikers(long topicId) {     
-        return Person.getLikers(c, topicId);
+        return Topic.getLikers(c, topicId);
     }
 
     @Override
@@ -61,12 +61,12 @@ public class API implements APIProvider {
 
     @Override
     public Result<PostView> getLatestPost(long topicId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Topic.getLatestPost(c, topicId);
     }
 
     @Override
     public Result<List<ForumSummaryView>> getForums() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Forum.getSummary(c);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class API implements APIProvider {
 
     @Override
     public Result<ForumView> getForum(long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Forum.getDetailedForum(c, id);
     }
 
     @Override

@@ -149,9 +149,9 @@ public class Topic {
             rst = pstmt.executeQuery();
             pstmt.setLong(1, topicId);
             while(rst.next()) {
-                String name = rst.getString("name").trim();
-                String username=rst.getString("username").trim();
-                String stuId=rst.getString("stuId").trim();                
+                String name = rst.getString("name");
+                String username=rst.getString("username");
+                String stuId=rst.getString("stuId");                
                 personList.add(new PersonView(name, username, stuId));
             }
             return Result.success(personList);

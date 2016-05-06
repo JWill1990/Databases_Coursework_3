@@ -81,7 +81,7 @@ public class API implements APIProvider {
 
     @Override
     public Result addNewPerson(String name, String username, String studentId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Person.addNewPerson(c, name, username, studentId);
     }
 
     @Override

@@ -16,16 +16,20 @@ public class Person {
 
     private final static String getUserStatement =
         "SELECT name,username FROM Person";
+
     private final static String getPersonViewsStatement =
         "SELECT name, username, stuId " +
         "FROM Person WHERE username = ?";
+
+    private final static String addPerson=
+    	"INSERT INTO Person values (?,?,?)";
 
     /**
      * Get a list of all users in the system as a map username -> name.
      * @return A map with one entry per user of the form username -> name
      * (note that usernames are unique).
      */
-    public static  Result<Map<String, String>> getUsers(Connection c){ 
+    public static  Result<Map<String, String>> getUsers(Connection c){
         PreparedStatement pstmt;
         ResultSet rst;
         Map<String, String> maps=new HashMap<String,String>();  //Maps
@@ -73,14 +77,38 @@ public class Person {
             }
             else {
                 return Result.failure("There are no user for this table");
-            }  
+            }
         }
         catch (SQLException e) {
             return Result.fatal("exception - " + e);
         }
         //return Result.fatal("No error ");
     }
+    
+    public static Result addNewPerson(Connection c, String name, String username, String studentId ){
+        	try(PreparedStatement pstmt=c.prepareStatement(addPerson)){
+        		pstmt.setString(1,username);
+        		pstmt.setString(2,name);
+        		pstmt.setString(3,studentId);
 
+        		if(!CheckExists.username(c, username)){
+        			if(TestValidInput.Validator(name) && TestValidInput.Validator(username) && TestValidInput.Validator(studentId)){
+    	    			pstmt.executeUpdate();
+    	    			c.commit();
+    	    			return Result.success();
+        			}
+    	    		else{
+    	    			return Result.failure("Invalid String used");
+    	    		}
+        		}
+        		else{
+        			return Result.failure("User Exists");
+        		}
+        	}catch(Exception e){
+        		System.out.print("Excpetion is "+e);
+        		return Result.fatal("Unexpected error");
+        	}
+        }
 
 
 }

@@ -49,6 +49,10 @@ public class Topic {
         "INSERT INTO TopicLikers values (?,?)";
     private static final String removeLikeSQL =
         "DELETE FROM TopicLikers WHERE topicID=? AND personID=?";
+    private static final String createFavSQL =
+        "INSERT INTO TopicFavourites values (?,?)";
+    private static final String removeFavSQL =
+        "DELETE FROM TopicLikers WHERE topicID=? AND personID=?";
 
 
     /**
@@ -234,6 +238,37 @@ public class Topic {
             pstmt.setLong(1, topicId);
             pstmt.setInt(2, personID);
             pstmt.executeUpdate(); //Use update method to write to db
+            c.commit();
+            return Result.success();
+        }
+        catch (SQLException e) {
+            return Result.fatal("Unknown error");
+        }                              
+    }
+
+    public static Result favouriteTopic(Connection c, String username, long topicId, boolean fav) {
+
+        if(!CheckExists.username(c, username)){
+            return Result.failure("Person does not exist");
+        }
+
+        if(!CheckExists.topic(c, topicId)){
+            return Result.failure("Topic does not exist");
+        }
+
+        int personID = Tools.usernameToID(c, username);
+        String favSQL;
+        if (fav) {
+            favSQL = createFavSQL;
+        }
+        else {
+            favSQL = removeFavSQL;
+        }
+
+        try(PreparedStatement pstmt = c.prepareStatement(favSQL)){
+            pstmt.setLong(1, topicId);
+            pstmt.setInt(2, personID);
+            pstmt.executeUpdate();
             c.commit();
             return Result.success();
         }

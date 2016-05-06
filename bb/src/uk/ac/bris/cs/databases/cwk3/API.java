@@ -101,7 +101,7 @@ public class API implements APIProvider {
 
     @Override
     public Result favouriteTopic(String username, long topicId, boolean fav) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return Topic.favouriteTopic(c, username, topicId, fav);
     }
 
     @Override

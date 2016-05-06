@@ -84,12 +84,12 @@ public class Person {
         }
         //return Result.fatal("No error ");
     }
-    
+
     public static Result addNewPerson(Connection c, String name, String username, String studentId ){
         	try(PreparedStatement pstmt=c.prepareStatement(addPerson)){
-        		pstmt.setString(1,username);
-        		pstmt.setString(2,name);
-        		pstmt.setString(3,studentId);
+        		pstmt.setString(2,username);
+        		pstmt.setString(3,name);
+        		pstmt.setString(4,studentId);
 
         		if(!CheckExists.username(c, username)){
         			if(TestValidInput.Validator(name) && TestValidInput.Validator(username) && TestValidInput.Validator(studentId)){
